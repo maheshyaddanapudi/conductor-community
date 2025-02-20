@@ -1,21 +1,34 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.2.1'
-    id 'io.spring.dependency-management' version '1.1.4'
-}
-
 dependencies {
-    // Core Spring Boot and JPA dependencies
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-json'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'org.hibernate:hibernate-core:6.2.0.Final'
+    implementation project(':persistence:conductor-common-persistence')
+    implementation "com.netflix.conductor:conductor-common:${revConductor}"
+    implementation "com.netflix.conductor:conductor-core:${revConductor}"
 
-    // Optional: If using Liquibase for schema migrations
-    // implementation 'org.liquibase:liquibase-core'
+    compileOnly 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.springframework.retry:spring-retry'
+
+    implementation "com.google.guava:guava:${revGuava}"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+
+    implementation "org.apache.commons:commons-lang3"
+    
+    // JPA & Hibernate
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.hibernate:hibernate-core:6.2.0.Final"
 
     // Testing dependencies
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.testcontainers:testcontainers'
-    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation "org.codehaus.groovy:groovy-all:${revGroovy}"
+    testImplementation "com.netflix.conductor:conductor-server:${revConductor}"
+    testImplementation "com.netflix.conductor:conductor-client:${revConductor}"
+    testImplementation "com.netflix.conductor:conductor-grpc-client:${revConductor}"
+    testImplementation "com.netflix.conductor:conductor-es6-persistence:${revConductor}"
+
+    testImplementation project(':conductor-test-util').sourceSets.test.output
+    testImplementation project(':persistence:conductor-common-persistence').sourceSets.test.output
+}
+
+test {
+    // Ensure JPA tests run in sequence if necessary
+    maxParallelForks = 1
 }
