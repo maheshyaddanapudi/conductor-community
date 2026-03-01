@@ -1,0 +1,8 @@
+# Claude Code workflow preferences for conductor-community
+# Referenced by CLAUDE.md — do not remove
+
+# Pause between agent phases for user review before proceeding
+human_in_loop_at_handoff: true
+
+# After completing a task, suggest 2-4 concrete next steps
+suggest_next_actions: true
