@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew spotlessApply)",
+      "Bash(./gradlew spotlessCheck)",
+      "Bash(./gradlew build*)",
+      "Bash(./gradlew test*)",
+      "Bash(./gradlew :*:test*)",
+      "Bash(./gradlew :*:build*)",
+      "Bash(./gradlew jacocoTestReport)",
+      "Bash(./gradlew dependencies*)",
+      "Bash(git *)"
+    ],
+    "deny": [
+      "Edit(.github/**)",
+      "Write(.github/**)",
+      "Edit(.git/**)",
+      "Write(.git/**)",
+      "Edit(release.sh)",
+      "Write(release.sh)",
+      "Edit(gradlew)",
+      "Write(gradlew)",
+      "Edit(gradlew.bat)",
+      "Write(gradlew.bat)",
+      "Edit(gradle/**)",
+      "Write(gradle/**)",
+      "Edit(LICENSE)",
+      "Write(LICENSE)",
+      "Edit(licenseheader.txt)",
+      "Write(licenseheader.txt)",
+      "Edit(dependencies.lock)",
+      "Write(dependencies.lock)",
+      "Read(.env*)",
+      "Read(**/secrets/**)",
+      "Read(**/*credentials*)",
+      "Read(**/*password*)",
+      "Bash(rm -rf *)",
+      "Bash(*--force*)",
+      "Bash(*--hard*)",
+      "Bash(./gradlew *snapshot*)",
+      "Bash(./gradlew *publish*)",
+      "Bash(./gradlew *final*)",
+      "Bash(./gradlew *candidate*)"
+    ]
+  }
+}
