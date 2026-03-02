@@ -165,4 +165,6 @@ These paths are protected. Do not edit, delete, or overwrite them:
 @import docs/architecture/repo-map.md
 @import docs/architecture/modules.md
 @import docs/dev/build.md
+@import docs/system-summary-doc.md
+@import docs/data-model-doc.md
 @import .claude/workflow-config.yml
