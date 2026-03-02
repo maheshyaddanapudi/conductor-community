@@ -1,0 +1,4 @@
+{
+  "mcpServers": {},
+  "_comment": "No MCP servers configured. This project uses GitHub Issues for tracking and GitHub Actions for CI — both accessible via git and gh CLI without MCP. Add servers here as integrations are adopted (e.g., Jira, Confluence, TestRail)."
+}
