@@ -75,7 +75,8 @@
       "Write(build.gradle)",
       "Write(settings.gradle)",
       "Write(dependencies.gradle)",
-      "Write(**/build.gradle)"
+      "Write(**/build.gradle)",
+      "Write(**/db/migration*/*.sql)"
     ]
   },
   "hooks": {

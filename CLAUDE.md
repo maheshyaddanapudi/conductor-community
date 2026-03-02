@@ -85,6 +85,7 @@ When working on tasks in this repository, follow this delegation pattern:
 2. **implementer**: Implement changes following Google Java Format (AOSP). Ensure `@ConditionalOnProperty` activation patterns are preserved. Add Apache 2.0 license headers to new files.
 3. **test-engineer**: Run tests for affected modules only (see commands above). Ensure Docker is available for Testcontainers. Remember `maxParallelForks = 1` for MySQL/PostgreSQL modules.
 4. **reviewer**: Verify `./gradlew spotlessCheck` passes. Confirm import ordering (`java → javax → org → com.netflix → others`). Check that no `dependencies.lock` files were manually edited.
+5. **security-auditor** (conditional): If changes touch REST controllers, SQL queries, credential handling, or deserialization logic, audit for OWASP Top 10 vulnerabilities. Read-only — produces findings, not code.
 
 ### Event Queue Tasks (AMQP, NATS, Kafka)
 When the task involves `event-queue/*` or `task/kafka`:
