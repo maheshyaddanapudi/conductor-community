@@ -262,12 +262,7 @@ public class OpenSearchRestDAO extends OpenSearchBaseDAO implements IndexDAO {
                         new NByteArrayEntity(templateSource, ContentType.APPLICATION_JSON);
                 Request request = new Request(HttpMethod.PUT, "/_template/" + template);
                 request.setEntity(entity);
-                String test =
-                        IOUtils.toString(
-                                openSearchAdminClient
-                                        .performRequest(request)
-                                        .getEntity()
-                                        .getContent());
+                openSearchAdminClient.performRequest(request);
             }
         } catch (Exception e) {
             logger.error("Failed to init " + template, e);

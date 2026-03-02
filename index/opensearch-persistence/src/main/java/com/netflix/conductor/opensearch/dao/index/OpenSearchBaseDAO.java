@@ -20,6 +20,8 @@ import org.opensearch.index.query.BoolQueryBuilder;
 import org.opensearch.index.query.QueryBuilder;
 import org.opensearch.index.query.QueryBuilders;
 import org.opensearch.index.query.QueryStringQueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.netflix.conductor.dao.IndexDAO;
 import com.netflix.conductor.opensearch.dao.query.parser.Expression;
@@ -31,6 +33,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 abstract class OpenSearchBaseDAO implements IndexDAO {
+
+    private static final Logger log = LoggerFactory.getLogger(OpenSearchBaseDAO.class);
 
     String indexPrefix;
     ObjectMapper objectMapper;
@@ -63,9 +67,10 @@ abstract class OpenSearchBaseDAO implements IndexDAO {
                         });
                 ((ObjectNode) root)
                         .set(indexPatternsFieldName, objectMapper.valueToTree(patternsWithPrefix));
-                System.out.println(
-                        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));
-                return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
+                String result =
+                        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
+                log.debug("Index template with prefix applied: {}", result);
+                return result;
             }
         }
         return text;
