@@ -9,18 +9,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package com.netflix.conductor.es7.config;
+package com.netflix.conductor.opensearch.config;
 
 import org.springframework.boot.autoconfigure.condition.AllNestedConditions;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-public class ElasticSearchConditions {
+public class OpenSearchConditions {
 
-    private ElasticSearchConditions() {}
+    private OpenSearchConditions() {}
 
-    public static class ElasticSearchV7Enabled extends AllNestedConditions {
+    public static class OpenSearchEnabled extends AllNestedConditions {
 
-        ElasticSearchV7Enabled() {
+        OpenSearchEnabled() {
             super(ConfigurationPhase.PARSE_CONFIGURATION);
         }
 
@@ -32,17 +32,7 @@ public class ElasticSearchConditions {
         static class enabledIndexing {}
 
         @SuppressWarnings("unused")
-        @ConditionalOnProperty(
-                name = "conductor.elasticsearch.version",
-                havingValue = "7",
-                matchIfMissing = true)
-        static class enabledES7 {}
-
-        @SuppressWarnings("unused")
-        @ConditionalOnProperty(
-                name = "conductor.opensearch.enabled",
-                havingValue = "false",
-                matchIfMissing = true)
-        static class openSearchNotEnabled {}
+        @ConditionalOnProperty(name = "conductor.opensearch.enabled", havingValue = "true")
+        static class enabledOpenSearch {}
     }
 }
