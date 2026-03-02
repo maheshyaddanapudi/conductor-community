@@ -1,0 +1,114 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Bash(./gradlew *)",
+      "Bash(./gradlew)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git rev-parse*)",
+      "Bash(git remote*)",
+      "Bash(git fetch*)",
+      "Bash(git stash list*)",
+      "Bash(git shortlog*)",
+      "Bash(ls *)",
+      "Bash(ls)",
+      "Bash(tree *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(uniq *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(cat *)",
+      "Bash(find *)",
+      "Bash(which *)",
+      "Bash(java -version*)",
+      "Bash(java --version*)",
+      "Bash(docker info*)",
+      "Bash(docker ps*)",
+      "Bash(mkdir *)",
+      "Write(**/src/main/**)",
+      "Write(**/src/test/**)",
+      "Write(docs/**)",
+      "Write(.claude/**)",
+      "Write(plans/**)"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Read(**/.env*)",
+      "Read(**/secrets/**)",
+      "Read(**/credentials*)",
+      "Read(**/password*)",
+      "Read(**/signing-key*)",
+      "Bash(rm -rf *)",
+      "Bash(rm -r *)",
+      "Bash(rm -fr *)",
+      "Bash(sudo *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(git checkout -- .)",
+      "Bash(git branch -D *)",
+      "Write(.github/**)",
+      "Write(gradle/**)",
+      "Write(gradlew)",
+      "Write(gradlew.bat)",
+      "Write(licenseheader.txt)",
+      "Write(**/dependencies.lock)"
+    ],
+    "ask": [
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(git checkout main*)",
+      "Bash(git checkout master*)",
+      "Bash(git merge*)",
+      "Bash(git rebase*)",
+      "Bash(git stash drop*)",
+      "Bash(git stash clear*)",
+      "Bash(git tag*)",
+      "Write(build.gradle)",
+      "Write(settings.gradle)",
+      "Write(dependencies.gradle)",
+      "Write(**/build.gradle)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT_file_path\" | grep -qE '\\.java$'; then if ! head -5 \"$CLAUDE_TOOL_INPUT_file_path\" | grep -q 'Licensed under the Apache License'; then echo '⚠ WARNING: New Java file is missing Apache 2.0 license header. Run ./gradlew spotlessApply to add it.'; fi; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT_file_path\" | grep -qE '\\.sql$'; then dir=$(dirname \"$CLAUDE_TOOL_INPUT_file_path\"); if echo \"$dir\" | grep -q 'migration'; then base=$(basename \"$CLAUDE_TOOL_INPUT_file_path\"); if ! echo \"$base\" | grep -qE '^(V[0-9]+__|R__)'; then echo '⚠ WARNING: Flyway migration file does not follow V{N}__ or R__ naming convention.'; fi; fi; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT_command\" | grep -qE '^rm\\s+-(rf|fr|r)\\s'; then echo 'BLOCKED: Destructive rm command is not allowed.'; exit 2; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
